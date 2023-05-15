@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+#temp {
+  text-align: center;
+  font-size: 10em;
+}
+body {
+    background-color: rgba(0, 125, 158, 1);
+  background-image: linear-gradient(
+    0deg,
+    rgba(0, 47, 80, 1) 0%,
+    rgba(0, 125, 158, 1) 100%,
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  color: #fff;
+}
+.city-icon {
+    filter: invert(1);
+    opacity: 0.5;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100vmin;
+    transform: translateY(-50%);
+  }
+.desc {
+    font-weight: normal;
+    text-align: center;
+    transform: translateY(-40%);
+}
+#overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 125, 158, 1);
+    background-image: linear-gradient(
+      0deg,
+      rgba(0, 47, 80, 1) 0%,
+      rgba(0, 125, 158, 1) 100%,
+    );
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Atkinson Hyperlegible", sans-serif;
+    color: #fff;
+}
+#loading {
+    fill: white;
+    animation: spin 3s infinite linear;
+    width: 80vmin;
+    height: 80vmin;
+}
+#overlay-content {
+    justify-content: center;
+    display: flex;
+}

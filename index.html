@@ -1,13 +1,58 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div id="main">
+<body onload="getWeather()">
+    <div id="overlay">
+        <div id="overlay-content">
+            <svg id="loading" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M196 725q-20-36-28-72.5t-8-74.5q0-131 94.5-225.5T480 258h43l-80-80 39-39 149 149-149 149-40-40 79-79h-41q-107 0-183.5 76.5T220 578q0 29 5.5 55t13.5 49l-43 43Zm280 291L327 867l149-149 39 39-80 80h45q107 0 183.5-76.5T740 577q0-29-5-55t-15-49l43-43q20 36 28.5 72.5T800 577q0 131-94.5 225.5T480 897h-45l80 80-39 39Z"/></svg>
+        </div>
     </div>
-    <script src="get-weather.js"></script>
+    <div id="temp"></div>
+    <div id="desc"></div>
+    <script>
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = 'flex';
+        const tempElement = document.getElementById('temp');
+        const descElement = document.getElementById('desc');
+        const apiKey = "c8ecc34df730f2093ce6be0fc184b463";
+
+        function getWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            } else {
+                tempElement.innerHTML = "Geolocation is not supported by this browser (or you turned it off).";
+            }
+        }
+
+        function onSuccess(position) {
+            const { latitude, longitude } = position.coords;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const { main, weather } = data;
+                    const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]}.svg`;
+
+                    tempElement.innerHTML = `<div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>`;
+                    descElement.innerHTML = `<h1 class='desc'>${weather[0]["description"]}</h1><img class="city-icon" src="${icon}" alt="${weather[0]["description"]}">`;
+
+                    overlay.style.display = 'none';
+                })
+                .catch(() => {
+                    tempElement.innerHTML = "Unable to fetch weather data.";
+                });
+        }
+
+        function onError(error) {
+            tempElement.innerHTML = `Error retrieving location: ${error.message}`;
+        }
+    </script>
 </body>
 </html>
